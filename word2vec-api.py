@@ -17,6 +17,9 @@ import argparse
 import base64
 import sys
 
+from gensim.models.keyedvectors import KeyedVectors
+import gensim
+
 parser = reqparse.RequestParser()
 
 
@@ -118,7 +121,8 @@ if __name__ == '__main__':
     port = int(args.port) if args.port else 5000
     if not args.model:
         print "Usage: word2vec-apy.py --model path/to/the/model [--host host --port 1234]"
-    model = w.load_word2vec_format(model_path, binary=binary)
+    #model = w.load_word2vec_format(model_path, binary=binary)
+    model = gensim.models.KeyedVectors.load_word2vec_format(model_path, binary=True, unicode_errors='ignore')
     api.add_resource(N_Similarity, path+'/n_similarity')
     api.add_resource(Similarity, path+'/similarity')
     api.add_resource(MostSimilar, path+'/most_similar')
